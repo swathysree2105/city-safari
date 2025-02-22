@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firecracker Blast Button</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            background: black; /* Dark background for better fireworks visibility */
+        }
+
+        /* Background video */
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Button Wrapper */
+        .button-wrapper {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+        }
+
+        /* Button Styling */
+        .city-safari-btn {
+            background-color: #8B4513; /* SaddleBrown */
+            color: #FFD700; /* Gold */
+            padding: 15px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+            position: relative;
+        }
+
+        /* Hover effect */
+        .city-safari-btn:hover {
+            background-color: #D2691E; /* Chocolate */
+            transform: scale(1.1);
+        }
+
+        /* Firework particle effect */
+        .particle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            opacity: 1;
+            animation: explode 1.2s ease-out forwards;
+        }
+
+        /* Keyframes for explosion */
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(0.2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <video autoplay loop muted>
+        <source src="Intro.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Button Wrapper -->
+    <div class="button-wrapper">
+        <button class="city-safari-btn" id="blastButton">City Safari</button>
+    </div>
+
+    <!-- Firecracker Sound -->
+    <audio id="firecrackerSound">
+        <source src="firecracker.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        document.getElementById('blastButton').addEventListener('click', function(event) {
+            let button = event.target;
+            let rect = button.getBoundingClientRect();
+            let particles = [];
+
+            // Play firecracker sound
+            document.getElementById('firecrackerSound').play();
+
+            for (let i = 0; i < 30; i++) { // Creates 30 particles for bigger explosion
+                let particle = document.createElement('div');
+                particle.className = 'particle';
+                document.body.appendChild(particle);
+
+                // Random explosion colors like fireworks
+                let colors = ['#FF0000', '#FFD700', '#00FF00', '#FF4500', '#00BFFF'];
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+                // Random movement for particles (Larger spread)
+                let x = (Math.random() - 0.5) * 400 + "px";
+                let y = (Math.random() - 0.5) * 400 + "px";
+
+                particle.style.setProperty('--x', x);
+                particle.style.setProperty('--y', y);
+                particle.style.left = rect.left + rect.width / 2 + "px";
+                particle.style.top = rect.top + rect.height / 2 + "px";
+
+                particles.push(particle);
+
+                // Remove particles after animation
+                setTimeout(() => {
+                    particle.remove();
+                }, 1200);
+            }
+
+            // Remove button after explosion
+            setTimeout(() => {
+                button.style.display = 'none';
+            }, 300);
+
+            // Redirect to sign-in page after explosion (~1.5s)
+            setTimeout(() => {
+                window.location.href = "2.signin.html";
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

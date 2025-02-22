@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Selection Transition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #e6d5b8;
+            position: relative;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .map-wrapper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* India Map - Starts Offscreen */
+        .india-map {
+            position: absolute;
+            width: 650px;
+            height: auto;
+            transition: transform 1.5s ease-in-out, opacity 1.5s ease-in-out;
+            transform: scale(0.5) translateY(-100vh);
+            opacity: 1;
+        }
+
+        /* State Selection Grid */
+        .state-grid {
+            display: none;
+            width: 90%;
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .state-box {
+            width: 260px;
+            height: 320px;
+            background: #f6e7c1;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out, opacity 1s ease-in-out, border 0.3s ease-in-out;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .state-box img {
+            width: 90%;
+            height: 220px;
+            object-fit: contain;
+            border-radius: 12px;
+            transition: transform 1s ease-in-out;
+        }
+
+        .state-box p {
+            margin-top: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4a3214;
+        }
+
+        /* Hover Effect */
+        .state-box:hover {
+            transform: scale(1.08);
+            box-shadow: 0px 18px 30px rgba(0, 0, 0, 0.3);
+            border: 4px solid #f0c14b;
+        }
+
+        /* Zoom Out Effect for Click */
+        .zoom-out {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 100vh;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            transition: transform 1.5s ease-in-out, opacity 1.5s ease-in-out;
+            z-index: 10;
+        }
+        img{
+            width:400;
+            height: 400;
+        }
+        .zoom-text {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    font-size: 60px; /* Large text */
+    font-weight: 900; /* Bold */
+    color: #ec6308eb; /* Bright Orange */
+    text-shadow: 5px 5px 15px rgba(255, 102, 0, 0.9);
+    opacity: 1;
+    transition: transform 1.5s ease-in-out, opacity 1.5s ease-in-out;
+    z-index: 20;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <div class="map-wrapper">
+        <img id="indiaMap" class="india-map" src="photo/web_bg/india.png" alt="India Map">
+    </div>
+
+    <!-- State Selection Grid -->
+    <div id="stateGrid" class="state-grid">
+        
+        <div class="state-box" onclick="zoomState(this, '6.connect.html')">
+            <img src="photo/Display_state/tn.png" alt="Tamil Nadu">
+            <p>Tamil Nadu</p>
+        </div>
+        
+        <div class="state-box" onclick="zoomState(this, 'kerala.html')">
+            <img src="photo/Display_state/kerala.png" alt="Kerala">
+            <p>Kerala</p>
+        </div>
+        <div class="state-box" onclick="zoomState(this, 'maharashtra.html')">
+            <img src="photo/Display_state/ma.png" alt="Maharashtra">
+            <p>Maharashtra</p>
+        </div>
+        <div class="state-box" onclick="zoomState(this, 'andhra.html')">
+            <img src="photo/Display_state/andhra.png" alt="Andhra Pradesh">
+            <p>Andhra Pradesh</p>
+        </div>
+        <div class="state-box" onclick="zoomState(this, 'gujarat.html')">
+            <img src="photo/Display_state/guj.png" alt="Gujarat">
+            <p>Gujarat</p>
+        </div>
+    </div>
+
+    <script>
+        function startTransition() {
+            let indiaMap = document.getElementById("indiaMap");
+            let stateGrid = document.getElementById("stateGrid");
+            let states = document.querySelectorAll(".state-box");
+
+            // Move India map into view
+            indiaMap.style.transform = "scale(1) translateY(0)";
+
+            // Expand outward and fade out (Zoom-out effect)
+            setTimeout(() => {
+                indiaMap.style.transform = "scale(3)";
+                indiaMap.style.opacity = "0";
+            }, 2000);
+
+            // Show state selection grid
+            setTimeout(() => {
+                stateGrid.style.display = "flex";
+                states.forEach((state, index) => {
+                    setTimeout(() => {
+                        state.style.opacity = "1";
+                    }, index * 300);
+                });
+            }, 3500);
+        }
+        function zoomState(stateBox, page) {
+    let img = stateBox.querySelector("img");
+
+    // Clone the clicked state image for zoom effect
+    let zoomedImg = img.cloneNode(true);
+    zoomedImg.classList.add("zoom-out");
+    document.body.appendChild(zoomedImg);
+
+    // Create "Let's Go" text element
+    let zoomText = document.createElement("div");
+    zoomText.classList.add("zoom-text");
+    zoomText.innerText = "T  A  M  I  L    N  A  D  U";
+    document.body.appendChild(zoomText);
+
+    // Apply zoom-out effect and fade out text
+    setTimeout(() => {
+        zoomedImg.style.transform = "translate(-50%, -50%) scale(3)";
+        zoomedImg.style.opacity = "0";
+
+        zoomText.style.transform = "translate(-50%, -50%) scale(3)"; // Zoom out text
+        zoomText.style.opacity = "0"; // Fade out text
+    }, 10);
+
+    // Redirect after animation
+    setTimeout(() => {
+        window.location.href = page;
+    }, 1500);
+}
+
+
+
+
+        
+
+        // Trigger animation when page loads
+        window.onload = startTransition;
+    </script>
+
+</body>
+</html>

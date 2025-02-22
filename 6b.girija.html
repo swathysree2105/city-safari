@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>South India Adventure: Must-Visit Places & Delicious Food 🌍🍛🎢</title>
+    <!-- Favicon link -->
+    <link rel="icon" href="path_to_your_favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('photo/web_bg/money-cash.gif'); /* Replace with your GIF file path */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #f6e7c1;
+            color: rgb(0, 0, 0);
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: rgba(246, 231, 193, 0.8);
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .day-plan {
+            margin: 20px 0;
+            display: none;
+        }
+
+        .day-plan .day {
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .day-plan .day h2 {
+            color: #f6e7c1;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #f6e7c1;
+            padding-bottom: 5px;
+        }
+
+        .line {
+            border-top: 2px solid #3b3c8f;
+            margin: 15px 0;
+        }
+
+        .fun-activities, .food, .budget {
+            margin-top: 10px;
+        }
+
+        .budget ul, .fun-activities ul, .food ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .budget li, .fun-activities li, .food li {
+            margin: 8px 0;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #000000;
+            font-weight: bold;  /* Make the text bold */
+        }
+
+        table th {
+            background-color: #f6e7c1;
+            color: rgb(125, 0, 0);
+        }
+
+        .selector-container, .budget-input-container, .submit-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        select, input {
+            padding: 10px;
+            font-size: 1em;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #f6e7c1;
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #00ff37;
+        }
+
+        /* Styling for the itinerary sections */
+        .place {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px; /* Adding space at the top */
+            margin-bottom: 30px; /* Adding space at the bottom */
+        }
+
+        .place .text {
+            flex: 1;
+            padding-right: 20px;
+            max-width: 500px; /* Limiting the text box width */
+        }
+
+        .place img {
+            max-width: 200px; /* Adjust the image size */
+            border-radius: 10px;
+        }
+
+        /* Add space between activities and food lists */
+        .fun-activities, .food {
+            margin-bottom: 15px;
+        }
+
+        /* Add space between different itinerary sections */
+        .itinerary-item {
+            margin-bottom: 40px; /* Space between each itinerary */
+        }
+
+        /* Styling for the individual itinerary container */
+        .itinerary-container {
+            width: 80%;  /* Adjust the width to make it smaller */
+            max-width: 900px; /* Limit the max-width */
+            margin: 0 auto; /* Center the div */
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        /* Add a stylish hover effect for buttons */
+        .submit-btn {
+            background-color: #f6e7c1;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #ffdb58; /* Highlight color */
+            transform: scale(1.1);  /* Slight zoom effect */
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>India Adventure: Must-Visit Places & Delicious Food 🌍🍛🎢</h1>
+</header>
+
+<div class="container">
+    <!-- Budget Input Section -->
+    <div class="submit-container">
+        <label for="userBudget">Enter Your Budget (Min ₹2000):</label>
+        <input type="number" id="userBudget" placeholder="Enter your budget">
+    </div>
+
+    <!-- Submit Button -->
+    <div class="submit-container">
+        <button class="submit-btn" onclick="updateItinerary()">Submit</button>
+    </div>
+
+    <!-- Total Estimated Budget Section -->
+    <div class="total-budget">
+        <h2>💰 Total Estimated Budget (Per Person)</h2>
+        <table id="budgetTable">
+            <tr>
+                <th>Category</th>
+                <th>Estimated Cost</th>
+            </tr>
+            <tr>
+                <td>Transport (Train/Bus/Cab)</td>
+                <td>₹4,000–₹5,500</td>
+            </tr>
+            <tr>
+                <td>Stay (Budget Hotels/Homestays)</td>
+                <td>₹10,500</td>
+            </tr>
+            <tr>
+                <td>Food (Local Cuisine & Snacks)</td>
+                <td>₹4,000–₹5,000</td>
+            </tr>
+            <tr>
+                <td>Fun Activities & Entry Fees</td>
+                <td>₹4,000</td>
+            </tr>
+            <tr>
+                <td>Miscellaneous (Shopping, Tips)</td>
+                <td>₹2,000</td>
+            </tr>
+            <tr>
+                <th>Total Budget</th>
+                <th id="totalBudget">₹24,000 – ₹28,000</th>
+            </tr>
+        </table>
+    </div>
+
+    <br/>
+    <!-- Place-wise Plan Section -->
+    <div id="itinerary">
+        <!-- Itinerary will be injected here dynamically based on user budget -->
+    </div>
+
+</div>
+
+<script>
+    const itineraryData = [
+        {
+            title: "🌅 Kanyakumari",
+            activities: [
+                "Sunrise at Vivekananda Rock Memorial 🌅 (₹50 ferry ride)",
+                "Visit Thiruvalluvar Statue",
+                "Beach Walk & Shopping for Seashell Souvenirs 🛍",
+                "Try Banana Chips & Local Handicrafts"
+            ],
+            food: [
+                "Fish Curry Meals – Hotel Saravana, Sea View Restaurant",
+                "Tender Coconut Drink – Beachside stalls",
+                "Banana Halwa & Chips – Local bakery shops"
+            ],
+            image: "photo/Tamil nadu/kanya.jpg",  
+            budget: 2000
+        },
+        {
+            title: "🏯 Rameshwaram",
+            activities: [
+                "Ramanathaswamy Temple",
+                "Dhanushkodi Ghost Town & Jeep Safari 🏝 (₹1,500 per jeep, split among group)",
+                "Pamban Bridge Photography Stop 📷"
+            ],
+            food: [
+                "Jigarthanda (Cold Dessert) – AP Kandasamy Hotel",
+                "Meen Kuzhambu (Fish Curry) – Sri Murugan Mess",
+                "Sakkarai Pongal (Sweet Rice Dish) – Temple Prasadam"
+            ],
+            image: "photo/Tamil nadu/ram.jpg",  // Replaced with pp2.jpg
+            budget: 2500
+        },
+        {
+            title: "🏞 Ooty",
+            activities: [
+                "Botanical Gardens 🌸",
+                "Ooty Lake & Boat Ride ⛴ (₹150)",
+                "Doddabetta Peak – Stunning View of the Nilgiris",
+                "Tea Estates & Factory Visit 🍃"
+            ],
+            food: [
+                "Ooty Homemade Chocolates 🍫",
+                "Tea & Snacks at Tea Estates",
+                "Sweets like Ooty Varkey"
+            ],
+            image: "photo/Tamil nadu/ooty.jpg",  // Replaced with pp3.jpg
+            budget: 3000
+        },
+        {
+            title: "🏰 Madurai",
+            activities: [
+                "Meenakshi Temple 🏛",
+                "Visit Thirumalai Nayak Palace",
+                "Explore the local bazaars"
+            ],
+            food: [
+                "Jigarthanda – A famous Madurai dessert",
+                "Mutton Biryani – Local restaurants"
+            ],
+            image: "photo/Tamil nadu/mad.jpg",  // Replaced with pp4.jpg
+            budget: 2200
+        },
+        {
+            title: "🗺 Kodaikanal",
+            activities: [
+                "Kodaikanal Lake",
+                "Visit Coaker's Walk",
+                "Boating and Trekking in the hills"
+            ],
+            food: [
+                "Fresh Strawberry Juice 🍓",
+                "Cheese Sandwich – Street Vendors"
+            ],
+            image: "photo/Tamil nadu/kod.jpg",  // Replaced with pp5.jpg
+            budget: 2600
+        },
+        {
+            title: "🏖 Varkala",
+            activities: [
+                "Varkala Beach 🏖",
+                "Explore the cliffs and the surrounding nature",
+                "Relax and unwind with Ayurvedic massages"
+            ],
+            food: [
+                "Fish Fry and Kerala Sadya (Traditional meal) 🐟",
+                "Coconut Water"
+            ],
+            image: "photo/Tamil nadu/vara.jpg",  // Replaced with pp6.jpg
+            budget: 2400
+        }
+    ];
+
+    function updateItinerary() {
+        const userBudget = parseInt(document.getElementById('userBudget').value || 0);
+        let totalCost = 0;
+        let itineraryHTML = '';
+
+        // Loop through the itinerary and create dynamic HTML
+        for (const place of itineraryData) {
+            totalCost += place.budget;
+
+            if (userBudget && totalCost > userBudget) {
+                break;
+            }
+
+            itineraryHTML += `
+                <div class="itinerary-item">
+                    <div class="itinerary-container">
+                        <div class="place">
+                            <div class="text">
+                                <h2>${place.title}</h2>
+                                <div class="fun-activities">
+                                    <strong>Fun Activities:</strong>
+                                    <ul>
+                                        ${place.activities.map(activity => `<li>${activity}</li>`).join('')}
+                                    </ul>
+                                </div>
+                                <div class="food">
+                                    <strong>Food:</strong>
+                                    <ul>
+                                        ${place.food.map(dish => `<li>${dish}</li>`).join('')}
+                                    </ul>
+                                </div>
+                                <div class="budget">
+                                    <strong>Budget: ₹${place.budget}</strong>
+                                </div>
+                            </div>
+                            <img src="${place.image}" alt="${place.title}" />
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Show the itinerary and update the budget
+        document.getElementById('itinerary').innerHTML = itineraryHTML;
+        document.getElementById('itinerary').style.display = 'block';
+
+        // Dynamically update the total budget
+        document.getElementById('totalBudget').innerText = `₹${totalCost}`;
+    }
+</script>
+
+</body>
+</html>

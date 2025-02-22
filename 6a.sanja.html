@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Plan Generator</title>
+    <style>
+        /* Resetting some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Base body styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #ff9900, #ffcc00); /* Indian saffron gradient */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            background-image: url('beach.jpg'); /* Indian landscape background */
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        /* Container holding everything */
+        .container {
+            background: rgba(255, 255, 255, 0.8); /* White background with slight transparency */
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Header styling */
+        h1 {
+            font-size: 2.5rem;
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Label Styling */
+        label {
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 500;
+            display: block;
+        }
+
+        /* Input Styling */
+        input[type="number"], button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        /* Input hover effect */
+        input[type="number"]:hover, button:hover {
+            border-color: #4CAF50;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Checkbox Container - Using flexbox to align items */
+        #places {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 10px;
+            background: #f4f4f4;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        /* Styling for each checkbox container */
+        #places label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* This aligns image and checkbox text */
+            background: #fff;
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Checkbox hover effect */
+        #places label:hover {
+            background-color: #e8f5e9;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Image styling */
+        .place-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+
+        /* Button Styling */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+        }
+
+        /* Plan Display Section */
+        .plan {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            margin-top: 30px;
+        }
+
+        .plan h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #4CAF50;
+        }
+
+        .plan ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        .plan li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .plan img {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+        }
+
+        .plan strong {
+            color: #4CAF50;
+            font-weight: 600;
+        }
+
+        /* Button outside the container */
+        .home-button {
+            background-color: #FF5722; /* Indian saffron red */
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .home-button:hover {
+            background-color: #FF7043;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Travel Plan Generator</h1>
+        
+        <!-- Number of days -->
+        <label for="days">Number of days:</label>
+        <input type="number" id="days" min="1" placeholder="Enter number of days">
+        
+        <!-- Places to visit with checkboxes and images -->
+        <label>Select places to visit:</label>
+        <div id="places">
+            <label>
+                <div style="display: flex; align-items: center;">
+                    <img src="photo/Tamil nadu/ooty.jpg" alt="Ooty" class="place-image">
+                    Ooty
+                </div>
+                <input type="checkbox" value="Ooty" style="margin-left: auto;">
+            </label>
+            <label>
+                <div style="display: flex; align-items: center;">
+                    <img src="photo/Tamil nadu/yelagiri.jpg" alt="Yelagiri" class="place-image">
+                    Yelagiri
+                </div>
+                <input type="checkbox" value="Yelagiri" style="margin-left: auto;">
+            </label>
+            <label>
+                <div style="display: flex; align-items: center;">
+                    <img src="photo/Tamil nadu/masinagudi.jpg" alt="Masinagudi" class="place-image">
+                    Masinagudi
+                </div>
+                <input type="checkbox" value="Masinagudi" style="margin-left: auto;">
+            </label>
+            <label>
+                <div style="display: flex; align-items: center;">
+                    <img src="photo/Tamil nadu/coimbatore.jpg" alt="Coimbatore" class="place-image">
+                    Coimbatore
+                </div>
+                <input type="checkbox" value="Coimbatore" style="margin-left: auto;">
+            </label>
+            <label>
+                <div style="display: flex; align-items: center;">
+                    <img src="photo/Tamil nadu/santhome.jpg" alt="San Thome Cathedral Basilica" class="place-image">
+                    San Thome Cathedral Basilica
+                </div>
+                <input type="checkbox" value="San Thome Cathedral Basilica" style="margin-left: auto;">
+            </label>
+            <label>
+                <div style="display: flex; align-items: center;">
+                    <img src="photo/Tamil nadu/ram.jpg" alt="Rameshwaram" class="place-image">
+                    Rameshwaram
+                </div>
+                <input type="checkbox" value="Rameshwaram" style="margin-left: auto;">
+            </label>
+            <label>
+                <div style="display: flex; align-items: center;">
+                    <img src="photo/Tamil nadu/kanya.jpg" alt="Kanyakumari" class="place-image">
+                    Kanyakumari
+                </div>
+                <input type="checkbox" value="Kanyakumari" style="margin-left: auto;">
+            </label>
+        </div>
+        
+        <!-- Generate Plan Button -->
+        <button onclick="generatePlan()">Generate Travel Plan</button>
+
+        <!-- Plan Display Section -->
+        <div id="plan" class="plan"></div>
+    </div>
+
+    <!-- Go to Home Page Button -->
+    <button class="home-button" onclick="window.location.href='state.html';">Go to Home Page</button>
+
+    <script>
+        function generatePlan() {
+            const days = document.getElementById('days').value;
+            
+            // Place-image mapping
+            const placeImages = {
+                "Ooty": "photo/Tamil nadu/ooty.jpg",
+                "Yelagiri": "photo/Tamil nadu/yelagiri.jpg",
+                "Masinagudi": "photo/Tamil nadu/masinagudi.jpg",
+                "Coimbatore": "photo/Tamil nadu/coimbatore.jpg",
+                "San Thome Cathedral Basilica": "photo/Tamil nadu/santhome.jpg",
+                "Rameshwaram": "photo/Tamil nadu/ram.jpg",
+                "Kanyakumari": "photo/Tamil nadu/kanya.jpg"
+            };
+
+            // Transport, accommodation, and rest time mapping for each place
+            const placeDetails = {
+                "Ooty": { transportTime: "4 hours", accommodationTime: "Check-in: 12:00 PM, Check-out: 10:00 AM", restTime: "1 hour after check-in", budget: 5000 },
+                "Yelagiri": { transportTime: "3 hours", accommodationTime: "Check-in: 1:00 PM, Check-out: 11:00 AM", restTime: "30 minutes after check-in", budget: 4000 },
+                "Masinagudi": { transportTime: "5 hours", accommodationTime: "Check-in: 2:00 PM, Check-out: 11:00 AM", restTime: "1 hour after check-in", budget: 6000 },
+                "Coimbatore": { transportTime: "2 hours", accommodationTime: "Check-in: 1:00 PM, Check-out: 12:00 PM", restTime: "30 minutes after check-in", budget: 3500 },
+                "San Thome Cathedral Basilica": { transportTime: "1 hour", accommodationTime: "Not applicable (day trip)", restTime: "30 minutes for rest", budget: 1000 },
+                "Rameshwaram": { transportTime: "6 hours", accommodationTime: "Check-in: 3:00 PM, Check-out: 11:00 AM", restTime: "1 hour after check-in", budget: 7000 },
+                "Kanyakumari": { transportTime: "8 hours", accommodationTime: "Check-in: 3:00 PM, Check-out: 12:00 AM", restTime: "2 hours after check-in", budget: 8000 }
+            };
+
+            // Get all checked checkboxes and create an array of selected places
+            const selectedPlaces = Array.from(document.querySelectorAll('#places input[type="checkbox"]:checked'))
+                                        .map(checkbox => checkbox.value);
+            
+            const planContainer = document.getElementById('plan');
+
+            // Check if number of days and selected places are provided
+            if (!days || selectedPlaces.length === 0) {
+                alert("Please enter the number of days and select at least one place to visit.");
+                return;
+            }
+
+            // Clear any previous plan
+            planContainer.innerHTML = "";
+
+            // Generate the travel plan
+            let travelPlan = `<h2>Your Detailed Travel Plan for ${days} Days</h2><ul>`;
+
+            // Create the starting date (today)
+            const startDate = new Date();
+
+            // Distribute the days evenly among selected places
+            const daysPerPlace = Math.floor(days / selectedPlaces.length);
+            const remainingDays = days % selectedPlaces.length;
+
+            let totalBudget = 0; // Initialize total budget
+
+            selectedPlaces.forEach((place, index) => {
+                let daysForThisPlace = daysPerPlace;
+                if (index < remainingDays) {
+                    daysForThisPlace += 1;  // Distribute remaining days evenly
+                }
+
+                // Get image URL for the place
+                const imageUrl = placeImages[place];
+
+                // Get additional details (transport, accommodation, and rest time)
+                const transportTime = placeDetails[place].transportTime;
+                const accommodationTime = placeDetails[place].accommodationTime;
+                const restTime = placeDetails[place].restTime;
+
+                // Get the budget for this place
+                const placeBudget = placeDetails[place].budget;
+                totalBudget += placeBudget; // Add the place's budget to the total budget
+
+                // Calculate the start and end date for each place
+                const placeStartDate = new Date(startDate);
+                placeStartDate.setDate(startDate.getDate() + index);  // Increment the day for each place
+                const placeEndDate = new Date(placeStartDate);
+                placeEndDate.setDate(placeStartDate.getDate() + daysForThisPlace - 1);
+
+                // Set start and end time for each day (e.g., from 9:00 AM to 6:00 PM)
+                const startTime = "9:00 AM";
+                const endTime = "6:00 PM";
+
+                // Add a list item with image, place name, and detailed schedule
+                travelPlan += `
+                    <li style="margin-bottom: 20px; display: flex; flex-wrap: wrap; align-items: flex-start;">
+                        <img src="${imageUrl}" alt="${place}" style="width: 150px; height: 150px; border-radius: 8px; margin-right: 20px;">
+                        <div>
+                            <strong>${place}</strong>
+                            <p>Duration: ${daysForThisPlace} day(s)</p>
+                            <p>Travel Date: ${placeStartDate.toDateString()} to ${placeEndDate.toDateString()}</p>
+                            <p>Transport Time: ${transportTime}</p>
+                            <p>Accommodation: ${accommodationTime}</p>
+                            <p>Rest Time: ${restTime}</p>
+                            <p>Budget: ₹${placeBudget}</p>
+                        </div>
+                    </li>`;
+            });
+
+            // Add total budget at the end of the plan
+            travelPlan += `
+                </ul>
+                <h3>Total Budget: ₹${totalBudget}</h3>`;
+
+            planContainer.innerHTML = travelPlan; // Display the generated plan
+            planContainer.style.display = "block"; // Make sure the plan is visible
+        }
+    </script>
+</body>
+</html>
